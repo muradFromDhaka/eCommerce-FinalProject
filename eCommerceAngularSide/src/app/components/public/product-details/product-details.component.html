@@ -1,0 +1,40 @@
+<div class="details-container" *ngIf="!isLoading && product">
+
+  <!-- LEFT: Thumbnail images -->
+  <div class="thumbs">
+    <img
+      *ngFor="let img of product.imageUrls"
+      [src]="img"
+      (click)="selectedImage = img"
+      [class.active]="img === selectedImage"
+      alt="thumbnail"
+    />
+  </div>
+
+  <!-- CENTER: Main image -->
+  <div class="main-image">
+    <img
+      [src]="selectedImage || product.imageUrls?.[0]"
+      [alt]="product.name"
+    />
+  </div>
+
+  <!-- RIGHT: Product info -->
+  <div class="info-box">
+    <h2>{{ product.name }}</h2>
+
+    <p class="price">$ {{ product.price }}</p>
+
+    <p class="desc">{{ product.description }}</p>
+
+    <div class="actions">
+      <button class="btn add-cart">Add to Cart</button>
+      <button class="btn buy-now">Buy Now</button>
+      <button class="btn back" > Back to List </button>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="isLoading" class="loading">Loading...</div>
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>

@@ -1,0 +1,71 @@
+<div class="product-form-container">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <!-- Product Name -->
+    <div class="form-group">
+      <label for="name">Product Name</label>
+      <input id="name" type="text" formControlName="name" />
+      <small *ngIf="productForm.get('name')?.touched && productForm.get('name')?.invalid">
+        Name is required.
+      </small>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description"></textarea>
+      <small *ngIf="productForm.get('description')?.touched && productForm.get('description')?.invalid">
+        Description is required.
+      </small>
+    </div>
+
+    <!-- Price -->
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input id="price" type="number" formControlName="price" step="0.01" />
+      <small *ngIf="productForm.get('price')?.touched && productForm.get('price')?.invalid">
+        Price is required.
+      </small>
+    </div>
+
+    <!-- Stock Quantity -->
+    <div class="form-group">
+      <label for="stockQuantity">Stock Quantity</label>
+      <input id="stockQuantity" type="number" formControlName="stockQuantity" />
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+      <label for="categoryId">Category</label>
+      <select id="categoryId" formControlName="categoryId">
+        <option [ngValue]="null">Select Category</option>
+        <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
+      </select>
+      <small *ngIf="productForm.get('categoryId')?.touched && productForm.get('categoryId')?.invalid">
+        Category is required.
+      </small>
+    </div>
+
+    <!-- Available -->
+    <div class="form-group checkbox-group">
+      <label for="available">Available</label>
+      <input id="available" type="checkbox" formControlName="available" />
+    </div>
+
+    <!-- Release Date -->
+    <div class="form-group">
+      <label for="releaseDate">Release Date</label>
+      <input id="releaseDate" type="date" formControlName="releaseDate" />
+    </div>
+
+    <!-- Image URLs -->
+    <div class="form-group">
+      <label for="imageUrls">Image URLs (comma separated)</label>
+      <textarea id="imageUrls" formControlName="imageUrls"></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group">
+      <button type="submit" [disabled]="productForm.invalid">Save Product</button>
+    </div>
+  </form>
+</div>

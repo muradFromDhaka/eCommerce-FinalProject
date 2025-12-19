@@ -1,0 +1,28 @@
+.user-navbar {
+  width: 100%;
+  background: #333;
+  color: white;
+  padding: 15px;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.user-navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.user-navbar a {
+  color: white;
+  text-decoration: none;
+}
+
+.user-navbar a:hover {
+  color: #00e676;
+}
+
+.content {
+  padding: 20px;
+}

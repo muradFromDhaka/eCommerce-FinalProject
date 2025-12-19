@@ -1,0 +1,47 @@
+<div class="category-form-wrapper">
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+
+    <h2>{{ id ? 'Edit Category' : 'Add Category' }}</h2>
+
+    <!-- Name -->
+    <div class="form-group">
+      <label>Category Name</label>
+      <input type="text" formControlName="name" placeholder="Enter category name" />
+      <small *ngIf="categoryForm.get('name')?.touched && categoryForm.get('name')?.invalid">
+        Name is required
+      </small>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label>Description</label>
+      <textarea rows="4" formControlName="description"></textarea>
+      <small *ngIf="categoryForm.get('description')?.touched && categoryForm.get('description')?.invalid">
+        Description is required
+      </small>
+    </div>
+
+    <!-- Image URL -->
+    <div class="form-group">
+      <label>Image URL</label>
+      <input type="text" formControlName="imageUrl" placeholder="https://example.com/image.jpg" />
+    </div>
+
+    <!-- Preview -->
+    <div class="image-preview" *ngIf="categoryForm.value.imageUrl">
+      <img [src]="categoryForm.value.imageUrl" alt="Preview" />
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-actions">
+      <button type="submit" class="btn primary">
+        {{ id ? 'Update' : 'Create' }}
+      </button>
+      <button type="button" class="btn cancel" routerLink="/admin/adminCategoryList">
+        Cancel
+      </button>
+    </div>
+
+  </form>
+</div>
+

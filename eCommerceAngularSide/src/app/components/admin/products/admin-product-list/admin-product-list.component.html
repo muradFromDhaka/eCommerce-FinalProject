@@ -1,0 +1,70 @@
+<button class="btn smart edit" [routerLink]="['/admin/addProduct']">Add Product</button>
+
+<div class="products-grid" role="list">
+  <article
+    class="product-card"
+    *ngFor="let p of productList"
+    role="listitem"
+    [attr.aria-label]="p.name"
+  >
+    <!-- Product Image -->
+    <div class="card-media">
+      <img
+        [src]="p.thumbnailUrl"
+        [alt]="p.name"
+        loading="lazy"
+      />
+
+      <span class="badge out" *ngIf="p.available === false">Out of Stock</span>
+      <span class="badge price">{{ p.price | currency:'USD' }}</span>
+    </div>
+
+    <div class="card-body">
+      <!-- Title -->
+      <h3 class="title" [title]="p.name">
+        {{ p.name }}
+      </h3>
+
+      <!-- Description -->
+      <p class="desc" *ngIf="p.description">
+        {{ p.description | slice:0:120 }}<span *ngIf="p.description.length > 120">…</span>
+      </p>
+
+      <!-- Smart Buttons -->
+      <div class="card-actions">
+        <!-- View -->
+        <button
+          class="btn smart view"
+          [routerLink]="['/admin/viewProduct', p.id]"
+        >
+          👁 View
+        </button>
+
+        <!-- Edit -->
+        <button
+          class="btn smart edit"
+          [routerLink]="['/admin/editProduct', p.id]"
+        >
+          ✏ Edit
+        </button>
+
+        <!-- Delete -->
+        <button
+          class="btn smart delete"
+          (click)="deleteProduct(p.id)"
+        >
+          🗑 Delete
+        </button>
+
+        <!-- Add to Cart -->
+        <!-- <button
+          class="btn btn-primary"
+          (click)="addToCart(p)"
+          [disabled]="p.available === false || (p.stockQuantity !== undefined && p.stockQuantity <= 0)"
+        >
+          🛒 Add
+        </button> -->
+      </div>
+    </div>
+  </article>
+</div>

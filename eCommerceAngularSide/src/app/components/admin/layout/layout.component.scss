@@ -1,0 +1,28 @@
+.admin-navbar {
+  width: 100%;
+  background: #222;
+  color: white;
+  padding: 15px;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.admin-navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.admin-navbar a {
+  color: white;
+  text-decoration: none;
+}
+
+.admin-navbar a:hover {
+  color: #ff9800;
+}
+
+.content {
+  padding: 20px;
+}

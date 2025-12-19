@@ -1,0 +1,164 @@
+/* ---------------------------
+   GRID (Responsive for all devices)
+---------------------------- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.2rem;
+  padding: 1rem;
+
+  /* Small phones (≤480px) */
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tablets (481px–768px) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Medium screens (769px–1024px) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Large desktops (>=1025px) */
+  @media (min-width: 1025px) {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+/* ---------------------------
+   CARD UI
+---------------------------- */
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: 0.2s ease;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ---------------------------
+   FIXED IMAGE SIZE + RESPONSIVE
+---------------------------- */
+.card-media {
+  position: relative;
+  height: 200px;                /* ← FIXED HEIGHT */
+  background: #f8f9fc;
+
+  @media (max-width: 480px) {
+    height: 180px;              /* smaller on small phones */
+  }
+
+  @media (min-width: 1024px) {
+    height: 220px;              /* bigger on desktop */
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* PERFECT fixed image crop */
+  }
+
+  .badge {
+    position: absolute;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+
+    &.out {
+      top: 10px;
+      left: 10px;
+      background: #d9534f;
+    }
+
+    &.price {
+      top: 10px;
+      right: 10px;
+      background: #2b6cb0;
+    }
+  }
+}
+
+/* ---------------------------
+   BODY
+---------------------------- */
+.card-body {
+  padding: 1rem;
+
+  .title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .desc {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 0.88rem;
+    min-height: 40px;             /* keeps layout aligned */
+  }
+
+  .stock {
+    margin-top: 5px;
+    color: #374151;
+    font-size: 0.85rem;
+  }
+}
+
+/* ---------------------------
+   SMART BUTTONS (responsive)
+---------------------------- */
+.card-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+
+  .btn.smart {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: 0.15s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    &.view { background: #1d4ed8; color: white; }
+    &.edit { background: #fbbf24; color: black; }
+    &.delete { background: #ef4444; color: white; }
+    &.cart { background: #10b981; color: white; }
+
+    &:hover { filter: brightness(0.9); }
+
+    &:disabled {
+      opacity: 0.5;
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+  }
+
+  /* Stack buttons vertically on small screens */
+  @media (max-width: 480px) {
+    .btn.smart {
+      flex: 100%;  /* full width */
+    }
+  }
+}

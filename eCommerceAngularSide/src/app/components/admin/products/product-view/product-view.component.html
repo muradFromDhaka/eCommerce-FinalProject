@@ -1,0 +1,42 @@
+<div class="product-card" *ngIf="productDetails">
+
+  <!-- Product Image -->
+  <div class="product-images">
+    <img 
+      [src]="mainImage || 'assets/img/product-placeholder.png'" 
+      [alt]="productDetails.name"
+      class="main-image"
+    />
+
+    <!-- Thumbnails (only if more than 1 image) -->
+    <div class="thumbnail-images" *ngIf="productDetails.imageUrls && productDetails.imageUrls.length > 1">
+      <img
+        *ngFor="let img of productDetails.imageUrls"
+        [src]="img"
+        [alt]="productDetails.name"
+        (click)="setMainImage(img)"
+        [class.active]="img === mainImage"
+      />
+    </div>
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info">
+    <h2>{{ productDetails.name }}</h2>
+    <p>{{ productDetails.price | currency:'USD' }}</p>
+    <p *ngIf="productDetails.description">{{ productDetails.description }}</p>
+    <p *ngIf="productDetails.categoryName">Category: {{ productDetails.categoryName }}</p>
+    <p [ngClass]="{'out-of-stock': !productDetails.available}">
+      {{ productDetails.available ? 'In Stock' : 'Out of Stock' }}
+    </p>
+    <p *ngIf="productDetails.releaseDate">Release Date: {{ productDetails.releaseDate }}</p>
+
+    <div class="product-actions">
+      <button [disabled]="!productDetails.available">🛒 Add to Cart</button>
+      <button [routerLink]="['/admin/adminProductList']"> Back</button>
+    </div>
+  </div>
+
+</div>
+
+
