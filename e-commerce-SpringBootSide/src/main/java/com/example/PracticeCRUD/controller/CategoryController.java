@@ -20,7 +20,6 @@ import com.example.PracticeCRUD.service.CategoryService;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin(origins = "*")
 public class CategoryController {
 
 	@Autowired

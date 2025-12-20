@@ -34,7 +34,6 @@ import com.example.PracticeCRUD.service.ProductService;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins ="*")
 public class ProductController {
 
 

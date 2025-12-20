@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Page, Product, ProductDetailsDto, ProductListDto, ProductRequest } from '../model/product.model';
+import { ProductDetails, ProductList,  ProductRequest, ProductResponse } from '../model/product.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,119 +10,97 @@ export class ProductService {
 
   private apiUrl = 'http://localhost:8080/api/products';
 
-  constructor(private http: HttpClient) {}
+   constructor(private http: HttpClient) {}
 
-  //-----------------------------
-  // BASIC CRUD
-  //-----------------------------
-
-  getAll(): Observable<ProductListDto[]> {
-    return this.http.get<ProductListDto[]>(this.apiUrl);
+  // Get all products (lightweight list)
+  getAllProducts(): Observable<ProductList[]> {
+    return this.http.get<ProductList[]>(this.apiUrl);
   }
 
-  getById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  // Get product by ID (details)
+  getProductById(id: number): Observable<ProductDetails> {
+    return this.http.get<ProductDetails>(`${this.apiUrl}/${id}`);
   }
 
-  create(product: ProductRequest): Observable<ProductRequest> {
-    return this.http.post<ProductRequest>(this.apiUrl, product);
+  // Create product
+  createProduct(product: ProductRequest): Observable<ProductResponse> {
+    return this.http.post<ProductResponse>(this.apiUrl, product);
   }
 
-  update(id: number, product: ProductRequest): Observable<ProductRequest> {
-    return this.http.put<ProductRequest>(`${this.apiUrl}/update/${id}`, product);
+  // Update product
+  updateProduct(id: number, product: ProductRequest): Observable<ProductResponse> {
+    return this.http.put<ProductResponse>(`${this.apiUrl}/${id}`, product);
   }
 
-  delete(id: number): Observable<void> {
+  // Delete product
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // Search products by name
+  searchProducts(name: string): Observable<ProductResponse[]> {
+    return this.http.get<ProductResponse[]>(`${this.apiUrl}/searchProducts`, {
+      params: new HttpParams().set('name', name)
+    });
+  }
+
+  // Filter by category
+  getProductsByCategoryId(id: number): Observable<ProductResponse[]> {
+    return this.http.get<ProductResponse[]>(`${this.apiUrl}/category/${id}`);
+  }
+
+  getProductsByCategoryName(name: string): Observable<ProductResponse[]> {
+    return this.http.get<ProductResponse[]>(`${this.apiUrl}/category/search`, {
+      params: new HttpParams().set('name', name)
+    });
+  }
+
+  // Filter by price range
+  filterByPrice(name: string, min: number, max: number): Observable<ProductResponse[]> {
+    return this.http.get<ProductResponse[]>(`${this.apiUrl}/search/price`, {
+      params: new HttpParams()
+        .set('name', name)
+        .set('min', min.toString())
+        .set('max', max.toString())
+    });
+  }
+
+  // Get available products (with pagination)
+  getAvailableProducts(page: number = 0, size: number = 10, sort: string = 'name'): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/available`, {
+      params: new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString())
+        .set('sort', sort)
+    });
+  }
+
+  // Create product with images
+  createProductWithImages(product: ProductRequest, files: File[]): Observable<ProductResponse> {
+    const formData = new FormData();
+    formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+    files.forEach(file => formData.append('files', file));
+    return this.http.post<ProductResponse>(`${this.apiUrl}/createProductWithImage`, formData);
+  }
+
+  // Update product with images
+  updateProductWithImages(id: number, product: ProductRequest, files: File[]): Observable<ProductResponse> {
+    const formData = new FormData();
+    formData.append('product', new Blob([JSON.stringify(product)], { type: 'application/json' }));
+    files.forEach(file => formData.append('files', file));
+    return this.http.put<ProductResponse>(`${this.apiUrl}/updateProductWithImage/${id}`, formData);
+  }
+
+  // Delete single image
+  deleteSingleImage(id: number, file: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/deleteSingleImage/${id}`, {
+      params: new HttpParams().set('file', file)
+    });
+  }
+
+  // Delete product with images
+  deleteProductWithImages(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/deleteProductWithImage/${id}`);
   }
-
-  //-----------------------------
-  // CATEGORY
-  //-----------------------------
-
-  getProductsByCategory(categoryId: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/category/${categoryId}`);
-  }
-
-  searchProductsByCategoryName(name: string): Observable<Product[]> {
-    const params = new HttpParams().set('name', name);
-    return this.http.get<Product[]>(`${this.apiUrl}/category/search`, { params });
-  }
-
-  //-----------------------------
-  // SEARCH
-  //-----------------------------
-
-  searchProductsByName(name: string): Observable<Product[]> {
-    const params = new HttpParams().set('name', name);
-    return this.http.get<Product[]>(`${this.apiUrl}/searchProducts`, { params });
-  }
-
-  //-----------------------------
-  // PRICE FILTER
-  //-----------------------------
-
-  filterByPrice(min: number, max: number, name?: string): Observable<Product[]> {
-    let params = new HttpParams()
-      .set('min', min)
-      .set('max', max);
-
-    if (name) params = params.set('name', name);
-
-    return this.http.get<Product[]>(`${this.apiUrl}/search/price`, { params });
-  }
-
-  //-----------------------------
-  // AVAILABLE (pagination)
-  //-----------------------------
-
-  getAvailableProducts(
-    page: number = 0, 
-    size: number = 10, 
-    sort: string = 'name'
-  ): Observable<Page<Product>> {
-
-    const params = new HttpParams()
-      .set('page', page)
-      .set('size', size)
-      .set('sort', sort);
-
-    return this.http.get<Page<Product>>(`${this.apiUrl}/available`, { params });
-  }
-
-  //-----------------------------
-  // IMAGE UPLOAD + UPDATE
-  //-----------------------------
-
-  // CREATE PRODUCT + IMAGES
-  createProductWithImages(product: Product, files: File[]): Observable<Product> {
-    const formData = new FormData();
-    formData.append("product", new Blob([JSON.stringify(product)], { type: "application/json" }));
-
-    files.forEach(file => formData.append("files", file));
-
-    return this.http.post<Product>(`${this.apiUrl}/createProductWithImage`, formData);
-  }
-
-  // UPDATE PRODUCT + IMAGES
-  updateProductWithImages(id: number, product: Product, files: File[]): Observable<Product> {
-    const formData = new FormData();
-    formData.append("product", new Blob([JSON.stringify(product)], { type: "application/json" }));
-
-    files.forEach(file => formData.append("files", file));
-
-    return this.http.put<Product>(`${this.apiUrl}/updateProductWithImage/${id}`, formData);
-  }
-
-  //-----------------------------
-  // DELETE SINGLE IMAGE
-  //-----------------------------
-
- deleteSingleImage(id: number, imageUrl: string) {
-  return this.http.delete(`${this.apiUrl}/deleteSingleImage/${id}`, {
-    params: { file: imageUrl }
-  });
-}
-
 
 }

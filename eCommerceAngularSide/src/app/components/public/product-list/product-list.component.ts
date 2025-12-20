@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
-import { ProductListDto } from 'src/app/model/product.model';
+import { ProductList } from 'src/app/model/product.model';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent {
-products: ProductListDto[] = [];
+products: ProductList[] = [];
   loading: boolean = false;
   errorMessage: string = '';
   searchControl: FormControl = new FormControl('');
@@ -35,7 +35,7 @@ products: ProductListDto[] = [];
 
   fetchProducts(): void {
     this.loading = true;
-    this.productService.getAll().subscribe({
+    this.productService.getAllProducts().subscribe({
       next: (data) => {
         this.products = data;
         this.loading = false;
@@ -50,7 +50,7 @@ products: ProductListDto[] = [];
 
   searchProducts(name: string): void {
     this.loading = true;
-    this.productService.searchProductsByName(name).subscribe({
+    this.productService.searchProducts(name).subscribe({
       next: (data) => {
         this.products = data;
         this.loading = false;

@@ -1,285 +1,149 @@
+<!-- Main Home Page -->
+<div class="amazon-home">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-carousel">
+      <!-- Carousel Images -->
+      <div class="carousel-slide active">
+        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img21/Wireless/Shreyansh/BAU/Unrexc/D70978891_INWLD_BAU_Unrec_Uber_PC_Hero_3000x1200._CB594707876_.jpg" 
+             alt="Electronics Sale" class="hero-image">
+      </div>
+      <div class="carousel-slide">
+        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/prime/Gateway/2020/May/gaming_3000x1200._CB431281466_.jpg" 
+             alt="Prime Gaming" class="hero-image">
+      </div>
+      <div class="carousel-slide">
+        <img src="https://images-eu.ssl-images-amazon.com/images/G/31/img2020/fashion/WA_2020/onsite/AW/revised/SBC_WA_pc_hero_3000x1200_2._CB415868625_.jpg" 
+             alt="Fashion Sale" class="hero-image">
+      </div>
+      
+      <!-- Carousel Controls -->
+      <button class="carousel-btn prev" (click)="prevSlide()">‹</button>
+      <button class="carousel-btn next" (click)="nextSlide()">›</button>
+      
+      <!-- Carousel Indicators -->
+      <div class="carousel-indicators">
+        <span class="indicator active" (click)="goToSlide(0)"></span>
+        <span class="indicator" (click)="goToSlide(1)"></span>
+        <span class="indicator" (click)="goToSlide(2)"></span>
+      </div>
+    </div>
+  </div>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="container">
-            <!-- Top Navbar -->
-            <div class="navbar-top">
-                <!-- Logo -->
-                <a href="#" class="logo">
-                    <div class="logo-placeholder">
-                        <span style="color: white; font-size: 24px; font-weight: bold;">amazon</span>
-                    </div>
-                </a>
-                
-                <!-- Delivery Location -->
-                <div class="delivery-location">
-                    <div class="location-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="location-text">
-                        <p>Deliver to</p>
-                        <p>United Kingdom</p>
-                    </div>
-                </div>
-                
-                <!-- Search Bar -->
-                <div class="search-bar">
-                    <select class="search-select">
-                        <option>All</option>
-                        <option>Electronics</option>
-                        <option>Books</option>
-                        <option>Home & Kitchen</option>
-                        <option>Fashion</option>
-                    </select>
-                    <input type="text" class="search-input" placeholder="Search Amazon">
-                    <button class="search-button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                
-                <!-- Right Side Navbar -->
-                <div class="navbar-right">
-                    <div class="nav-item">
-                        <p>Hello, sign in</p>
-                        <p>Account & Lists</p>
-                    </div>
-                    
-                    <div class="nav-item">
-                        <p>Returns</p>
-                        <p>& Orders</p>
-                    </div>
-                    
-                    <!-- Cart -->
-                    <div class="nav-item cart">
-                        <div class="cart-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-count">5</span>
-                        </div>
-                        <div class="cart-text">Cart</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Bottom Navbar -->
-            <div class="navbar-bottom">
-                <div class="all-menu">
-                    <i class="fas fa-bars"></i>
-                    <span>All</span>
-                </div>
-                
-                <div class="nav-links">
-                    <a href="#" class="nav-link">Today's Deals</a>
-                    <a href="#" class="nav-link">Customer Service</a>
-                    <a href="#" class="nav-link">Registry</a>
-                    <a href="#" class="nav-link">Gift Cards</a>
-                    <a href="#" class="nav-link">Sell</a>
-                </div>
-            </div>
+  <!-- Product Categories -->
+  <div class="container-fluid categories-section">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="categories-grid">
+      <a routerLink="/productList" class="category-card" *ngFor="let category of categories">
+        <div class="category-image">
+          <img [src]="category.imageUrl" [alt]="category.name">
         </div>
-    </nav>
-    
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <img src="https://images.unsplash.com/photo-1508427953056-b00b8d78ebf5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Amazon Hero" class="hero-image">
-        <div class="hero-overlay"></div>
-    </section>
-
-
- <!-- Categories Section -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <div class="row mb-4">
-      <div class="col">
-        <h2 class="section-title">Shop by Category</h2>
-        <p class="text-muted">Browse our wide range of product categories</p>
-      </div>
-      <div class="col-auto" *ngIf="!loading && !error">
-        <a routerLink="/category" class="btn btn-outline-primary">
-          View All Categories <i class="bi bi-arrow-right"></i>
-        </a>
-      </div>
+        <div class="category-name">{{category.name}}</div>
+      </a>
     </div>
-    
-    <!-- Loading State -->
-    <div *ngIf="loading" class="row g-4">
-      <div class="col-md-3 col-sm-6" *ngFor="let item of [1,2,3,4]">
-        <div class="category-card-small">
-          <div class="category-icon placeholder-glow">
-            <i class="bi bi-tag placeholder"></i>
+  </div>
+
+  <!-- Today's Deals -->
+  <div class="container-fluid deals-section">
+    <div class="section-header">
+      <h2 class="section-title">Today's Deals</h2>
+      <a routerLink="/productList" class="see-all">See all deals</a>
+    </div>
+    <div class="deals-grid">
+      <div class="deal-card" *ngFor="let deal of todaysDeals">
+         <div class="deal-badge">Title: {{deal.title}}</div>
+        <div class="deal-badge">Up to {{deal.discountPercent}}% off</div>
+        <div class="deal-details">
+          <!-- <div class="deal-price">
+            <span class="current-price">{{deal.currentPrice | currency:'INR'}}</span>
+            <span class="original-price">{{deal.originalPrice | currency:'INR'}}</span>
+            <span class="discount">({{deal.discountPercent}}% off)</span>
           </div>
-          <h6 class="mt-3 placeholder-glow">
-            <span class="placeholder col-8"></span>
-          </h6>
-          <small class="text-muted placeholder-glow">
-            <span class="placeholder col-12"></span>
-            <span class="placeholder col-10"></span>
-          </small>
-        </div>
-      </div>
-    </div>
-
-    <!-- Error State -->
-    <div *ngIf="error" class="alert alert-warning">
-      <i class="bi bi-exclamation-triangle me-2"></i>
-      {{ error }}
-      <button class="btn btn-link" (click)="loadFeaturedCategories()">Retry</button>
-    </div>
-    
-    <!-- Categories Grid -->
-    <div *ngIf="!loading && !error" class="row g-4">
-      <div class="col-md-3 col-sm-6" *ngFor="let category of featuredCategories">
-        <div class="category-card-small" [routerLink]="['/category', category.id]">
-          <div class="category-icon">
-            <i class="bi bi-tag"></i>
-          </div>
-          <h6 class="mt-3">{{category.name}}</h6>
-          <small class="text-muted">{{category.description | slice:0:60}}...</small>
+          <div class="deal-name">{{deal.title}}</div>
+          <div class="deal-rating">
+            <span class="rating-count">({{deal.reviewCount}})</span>
+          </div> -->
+          <button class="deal-btn" (click)="addToCart(deal)">Add to Cart</button>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-    
-    <!-- Products Section -->
-    <section class="products-section">
-        <div class="container">
-            <div class="products-grid">
-                <!-- Product Card 1 -->
-                <div class="product-card">
-                    <h3>Gaming accessories</h3>
-                    <div class="product-item">
-                        <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gaming headset">
-                        <p>Headsets</p>
-                        <button>Shop now</button>
-                    </div>
-                    <div class="product-item">
-                        <img src="https://images.unsplash.com/photo-1541140532154-b024d705b90a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gaming keyboard">
-                        <p>Keyboards</p>
-                        <button>Shop now</button>
-                    </div>
-                    <div class="product-item">
-                        <img src="https://images.unsplash.com/photo-1527814050087-3793815479db?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Computer mouse">
-                        <p>Computer mice</p>
-                        <button>Shop now</button>
-                    </div>
-                    <a href="#" class="see-more">See more</a>
-                </div>
-                
-                <!-- Product Card 2 -->
-                <div class="product-card">
-                    <h3>Deals in PCs</h3>
-                    <div class="product-item" *ngFor="let product of products">
-                        <img [src]="product.thumbnailUrl" [alt]="product.name" />
-                        <!-- <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Laptop"> -->
-                        <!-- <p>Laptops & Computers</p> -->
-                        <h3>{{ product.name }}</h3>
-        <p class="price">Price: ${{ product.price }}</p>
-        <p class="description">{{ product.description }}</p>
-        <p class="stock" [ngClass]="{'in-stock': product.available, 'out-of-stock': !product.available}">
-          {{ product.available ? 'In Stock' : 'Out of Stock' }}</p>
-                        <button>Shop now</button>
-                    </div>
-                    <a href="#" class="see-more">Shop deals in PCs</a>
-                </div>
-                
-                <!-- Product Card 3 -->
-                <div class="product-card">
-                    <h3>Refresh your space</h3>
-                    <div class="product-item">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Home decor">
-                        <p>Home décor under $50</p>
-                        <button>Shop now</button>
-                    </div>
-                    <div class="product-item">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Living room">
-                        <p>Living room</p>
-                        <button>Shop now</button>
-                    </div>
-                    <div class="product-item">
-                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Kitchen">
-                        <p>Kitchen</p>
-                        <button>Shop now</button>
-                    </div>
-                    <a href="#" class="see-more">See more</a>
-                </div>
-                
-                <!-- Product Card 4 -->
-                <div class="product-card">
-                    <h3>Top Deal</h3>
-                    <div class="product-item">
-                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Smart watch">
-                        <p>Up to 30% off smart watches</p>
-                        <button>Shop now</button>
-                    </div>
-                    <a href="#" class="see-more">See all deals</a>
-                </div>
-            </div>
+  <!-- Featured Products -->
+  <div class="container-fluid featured-section">
+    <h2 class="section-title">Featured Products</h2>
+    <div class="featured-products">
+      <div class="product-card" *ngFor="let product of products">
+        <div class="product-image">
+          <img [src]="product.thumbnailUrl" [alt]="product.name">
+          <!-- <div class="product-badges">
+            <span class="badge bestseller" *ngIf="product.isBestSeller">Best Seller</span>
+            <span class="badge discount" *ngIf="product.discount > 0">{{product.discount}}% off</span>
+          </div> -->
         </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="footer-top">
-            Back to top
+        <div class="product-info">
+          <h3 class="product-name">{{product.name}}</h3>
+          <div class="product-price">
+            <span class="current">{{product.price | currency:'INR'}}</span>
+            <span class="original" *ngIf="product.price">{{product.price | currency:'INR'}}</span>
+          </div>
+          <div class="product-actions">
+            <button class="btn-add-cart" (click)="addToCart(product)">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button class="btn-wishlist" (click)="addToWishlist(product)">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
         </div>
-        
-        <div class="footer-middle">
-            <div class="container">
-                <div class="footer-columns">
-                    <div class="footer-column">
-                        <h4>Get to Know Us</h4>
-                        <ul>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">About Amazon</a></li>
-                            <li><a href="#">Investor Relations</a></li>
-                            <li><a href="#">Amazon Devices</a></li>
-                            <li><a href="#">Amazon Science</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h4>Make Money with Us</h4>
-                        <ul>
-                            <li><a href="#">Sell products on Amazon</a></li>
-                            <li><a href="#">Sell on Amazon Business</a></li>
-                            <li><a href="#">Sell apps on Amazon</a></li>
-                            <li><a href="#">Become an Affiliate</a></li>
-                            <li><a href="#">Advertise Your Products</a></li>
-                            <li><a href="#">Self-Publish with Us</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h4>Amazon Payment Products</h4>
-                        <ul>
-                            <li><a href="#">Amazon Business Card</a></li>
-                            <li><a href="#">Shop with Points</a></li>
-                            <li><a href="#">Reload Your Balance</a></li>
-                            <li><a href="#">Amazon Currency Converter</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="footer-column">
-                        <h4>Let Us Help You</h4>
-                        <ul>
-                            <li><a href="#">Amazon and COVID-19</a></li>
-                            <li><a href="#">Your Account</a></li>
-                            <li><a href="#">Your Orders</a></li>
-                            <li><a href="#">Shipping Rates & Policies</a></li>
-                            <li><a href="#">Returns & Replacements</a></li>
-                            <li><a href="#">Help</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner Sections -->
+  <div class="container-fluid banners-section">
+    <div class="banner-row">
+      <div class="banner-card prime-banner">
+        <div class="banner-content">
+          <h3>Free One-Day Delivery</h3>
+          <p>On millions of items with Amazon Prime</p>
+          <button class="banner-btn" routerLink="/productList">Shop now</button>
         </div>
-        
-        <div class="footer-bottom">
-            <div class="container">
-                <p>© 2023 Amazon Clone. This is a demo site for educational purposes.</p>
-                <p>Privacy Policy | Terms of Use | Cookie Policy</p>
-            </div>
+      </div>
+      <div class="banner-card electronics-banner">
+        <div class="banner-content">
+          <h3>Electronics Store</h3>
+          <p>Latest gadgets and devices</p>
+          <button class="banner-btn" routerLink="/category">Explore</button>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommended for You -->
+  <div class="container-fluid recommended-section">
+    <h2 class="section-title">Recommended for You</h2>
+    <div class="recommended-products">
+      <div class="recommended-card" *ngFor="let product of recommendedProducts">
+        <div class="rec-image">
+          <img [src]="product.thumbnailUrl" [alt]="product.name">
+        </div>
+        <div class="rec-info">
+          <h4 class="rec-name">{{product.name}}</h4>
+          <div class="rec-price">{{product.price | currency:'INR'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Banner -->
+  <div class="footer-banner">
+    <div class="banner-text">
+      <p>See personalized recommendations</p>
+      <button class="signin-btn" routerLink="/login">Sign in</button>
+      <div class="new-customer">
+        New customer? <a routerLink="/signup">Start here.</a>
+      </div>
+    </div>
+  </div>
+</div>

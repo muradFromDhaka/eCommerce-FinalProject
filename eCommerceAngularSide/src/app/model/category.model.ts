@@ -1,27 +1,14 @@
-import { Product } from './product.model';
 
-// export interface Category {
-//     id?: number;             // BaseEntity থেকে
-//     name: string;
-//     description?: string;
-//     imageUrl?: string;
-    
-//     // products?: Product[];    // optional relation
-//     // createdAt?: string;      // BaseEntity timestamp
-//     // updatedAt?: string;
-// }
-
-export interface Category {
+export interface CategoryResponse {
   id: number;
   name: string;
-  description: string;
-  imageUrl: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string;
+  imageUrl?: string;
 }
 
 export interface CategoryRequest {
   name: string;
-  description: string;
-  imageUrl: string;
+  description?: string;
+  imageUrl?: string;
 }
+

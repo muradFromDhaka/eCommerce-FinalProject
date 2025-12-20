@@ -1,157 +1,182 @@
-<!-- <nav class="navbar">
-  <a routerLink="/home" class="logo">E-Shop</a>
-
-  <ul class="nav-links">
-    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-    <li><a routerLink="/category" routerLinkActive="active">Categories</a></li>
-    <li><a routerLink="/productList" routerLinkActive="active">Products</a></li>
-    <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
-    <li><a routerLink="/user" routerLinkActive="active">User</a></li>
-    <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-    <li><a routerLink="/signup" routerLinkActive="active">Signup</a></li>
-  </ul>
-</nav>
- -->
-
-
- <!-- Amazon-style Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark amazon-navbar">
-  <div class="container-fluid">
-    <!-- Logo -->
-    <a class="navbar-brand" routerLink="/home">
-      <img src="assets/logo.png" alt="Logo" height="30" class="d-inline-block align-text-top me-2">
-      <span class="amazon-logo-text">E-Shop</span>
-    </a>
-
-    <!-- Search Bar -->
-    <div class="search-container mx-3">
-      <div class="input-group">
-        <select class="form-select search-dropdown" style="width: auto;">
-          <option selected>All</option>
-          <option value="1">Electronics</option>
-          <option value="2">Fashion</option>
-          <option value="3">Home & Kitchen</option>
-          <option value="4">Books</option>
-        </select>
-        <input type="text" class="form-control search-input" placeholder="Search products...">
-        <button class="btn btn-warning search-button" type="button">
-          <i class="bi bi-search"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Right Side Menu Items -->
-    <div class="navbar-nav ms-auto">
-      
-      <!-- Language/Country Selector -->
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-          <i class="bi bi-globe me-1"></i> EN
-        </a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">English</a></li>
-          <li><a class="dropdown-item" href="#">বাংলা</a></li>
-        </ul>
-      </div>
-
-      <!-- Account & Lists -->
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-          <div class="d-flex flex-column">
-            <small>Hello, sign in</small>
-            <strong>Account & Lists</strong>
-          </div>
-        </a>
-        <ul class="dropdown-menu">
-          <li *ngIf="!isLoggedIn">
-            <a class="dropdown-item" routerLink="/login">
-              <i class="bi bi-box-arrow-in-right me-2"></i> Sign In
-            </a>
-          </li>
-          <li *ngIf="!isLoggedIn">
-            <a class="dropdown-item" routerLink="/signup">
-              <i class="bi bi-person-plus me-2"></i> New customer? Start here
-            </a>
-          </li>
-          <li *ngIf="isLoggedIn">
-            <a class="dropdown-item" routerLink="/user/profile">
-              <i class="bi bi-person-circle me-2"></i> Your Profile
-            </a>
-          </li>
-          <li *ngIf="isLoggedIn"><hr class="dropdown-divider"></li>
-          <li *ngIf="isLoggedIn">
-            <a class="dropdown-item" routerLink="/user/order">
-              <i class="bi bi-box-seam me-2"></i> Your Orders
-            </a>
-          </li>
-          <li *ngIf="isLoggedIn">
-            <a class="dropdown-item" routerLink="/user/wish">
-              <i class="bi bi-heart me-2"></i> Your Wishlist
-            </a>
-          </li>
-          <li *ngIf="isLoggedIn">
-            <hr class="dropdown-divider">
-          </li>
-          <li *ngIf="isLoggedIn">
-            <a class="dropdown-item text-danger" (click)="logout()">
-              <i class="bi bi-box-arrow-right me-2"></i> Sign Out
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Returns & Orders -->
-      <a class="nav-link" routerLink="/user/order" *ngIf="isLoggedIn">
-        <div class="d-flex flex-column">
-          <small>Returns</small>
-          <strong>& Orders</strong>
-        </div>
-      </a>
-
-      <!-- Cart -->
-      <a class="nav-link position-relative" routerLink="/user/cart">
-        <i class="bi bi-cart3 fs-4"></i>
-        <span class="cart-badge">{{cartItemCount}}</span>
-        <div class="d-none d-md-flex flex-column ms-1">
-          <strong>Cart</strong>
-        </div>
-      </a>
-
-      <!-- Admin Link (Only for Admin Users) -->
-      <a class="nav-link text-warning" routerLink="/admin" *ngIf="isAdmin">
-        <i class="bi bi-speedometer2 me-1"></i> Admin
-      </a>
-    </div>
-  </div>
-
-  <!-- Secondary Navbar (Categories) -->
-  <div class="secondary-navbar bg-light">
-    <div class="container-fluid">
-      <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/category">
-            <i class="bi bi-list me-1"></i> All Categories
+<!-- Amazon Exact Top Navbar -->
+<header class="amazon-header">
+  <!-- Top Black Bar -->
+  <div class="amazon-navbar-top">
+    <div class="container-fluid amazon-container">
+      <div class="amazon-top-row">
+        <!-- Amazon Logo -->
+        <div class="amazon-logo-container">
+          <a routerLink="/" class="amazon-logo-link">
+            <span class="amazon-logo-main">eCommerce</span>
+            <span class="amazon-logo-in">.in</span>
           </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/productList">Today's Deals</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/productList">Electronics</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/productList">Fashion</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/productList">Home & Kitchen</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/productList">Books</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/productList">New Releases</a>
-        </li>
-      </ul>
+        </div>
+
+        <!-- Delivery to India -->
+        <div class="amazon-delivery-info">
+          <div class="delivery-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="delivery-text">
+            <span class="deliver-to">Deliver to</span>
+            <span class="deliver-location">Bangladesh</span>
+          </div>
+        </div>
+
+        <!-- Search Bar (Exact Amazon Style) -->
+        <div class="amazon-search-container">
+          <div class="amazon-search-wrapper">
+            <!-- All Categories Dropdown -->
+            <div class="search-categories">
+              <button class="search-dropdown-btn">
+                <span>All</span>
+                <i class="fas fa-caret-down"></i>
+              </button>
+              <div class="search-categories-dropdown" *ngFor="let c of categories">
+                <div class="dropdown-item">All Departments</div>
+                <div class="dropdown-item">Electronics</div>
+                <div class="dropdown-item">Fashion</div>
+                <div class="dropdown-item">Home & Kitchen</div>
+                <div class="dropdown-item">Books</div>
+              </div>
+            </div>
+            
+            <!-- Search Input -->
+            <input type="text" class="amazon-search-input" placeholder="Search eCommerce.in">
+            
+            <!-- Search Button -->
+            <button class="amazon-search-btn">
+              <i class="fas fa-search">🔍</i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="amazon-language">
+          <img src="https://flagcdn.com/w20/bd.png" alt="India Flag" class="india-flag">
+          <span class="language-code">EN</span>
+          <i class="fas fa-caret-down"></i>
+        </div>
+
+        <!-- Account & Lists -->
+        <div class="amazon-account">
+          <div class="account-dropdown">
+            <div class="account-line-1">Hello, sign in</div>
+            <div class="account-line-2">Account & Lists</div>
+          </div>
+          <div class="account-menu">
+            <div class="account-menu-content" *ngIf="!isLoggedIn">
+              <div class="signin-section">
+                <button class="amazon-signin-btn" routerLink="/login">Sign in</button>
+                <div class="new-customer">
+                  New customer? <a routerLink="/signup" class="start-here">Start here.</a>
+                </div>
+              </div>
+              <div class="menu-divider"></div>
+              <div class="menu-list">
+                <div class="menu-item" routerLink="/user/order">Your Orders</div>
+                <div class="menu-item" routerLink="/user/wish">Your Wish List</div>
+              </div>
+            </div>
+            <div class="account-menu-content" *ngIf="isLoggedIn">
+              <div class="welcome-user">Welcome, {{userName}}</div>
+              <div class="menu-divider"></div>
+              <div class="menu-section">
+                <div class="section-title">Your Account</div>
+                <div class="menu-item" routerLink="/user/profile">
+                  <i class="fas fa-user-circle"></i> Your Profile
+                </div>
+                <div class="menu-item" routerLink="/user/order">
+                  <i class="fas fa-box"></i> Your Orders
+                </div>
+                <div class="menu-item" routerLink="/user/wish">
+                  <i class="fas fa-heart"></i> Your Wishlist
+                </div>
+              </div>
+              <div class="menu-divider"></div>
+              <div class="menu-section" *ngIf="isAdmin">
+                <div class="section-title">Admin</div>
+                <div class="menu-item" routerLink="/admin">
+                  <i class="fas fa-cog"></i> Admin Dashboard
+                </div>
+              </div>
+              <div class="menu-divider"></div>
+              <div class="menu-section">
+                <button class="amazon-signout-btn" (click)="logout()">Sign Out</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Returns & Orders -->
+        <div class="amazon-returns">
+          <div class="returns-line-1">Returns</div>
+          <div class="returns-line-2">& Orders</div>
+        </div>
+
+        <!-- Cart -->
+        <div class="amazon-cart">
+          <a routerLink="/user/cart" class="cart-link">
+            <div class="cart-icon-container">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" *ngIf="cartCount > 0">{{cartCount}}</span>
+            </div>
+            <div class="cart-text">Cart</div>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
+
+  <!-- Second Blue Navigation Bar -->
+  <div class="amazon-navbar-bottom">
+    <div class="container-fluid amazon-container">
+      <div class="amazon-bottom-row">
+        <!-- All Menu -->
+        <div class="amazon-all-menu">
+          <div class="all-menu-btn">
+            <i class="fas fa-bars"></i>
+            <span>All</span>
+          </div>
+          <div class="all-menu-dropdown">
+            <div class="menu-category">
+              <div class="category-title">Shop By Department</div>
+              <div class="category-item" routerLink="/category">All Categories</div>
+            </div>
+            <div class="menu-divider"></div>
+            <div class="menu-category">
+              <div class="category-title">Digital Content & Devices</div>
+              <div class="category-item">Electronics</div>
+              <div class="category-item">Computers</div>
+            </div>
+            <div class="menu-divider"></div>
+            <div class="menu-category">
+              <div class="category-title">Programs & Features</div>
+              <div class="category-item" routerLink="/user/wish">Your Wishlist</div>
+              <div class="category-item" *ngIf="isAdmin" routerLink="/admin">Admin Dashboard</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="amazon-nav-links">
+          <a class="nav-link" routerLink="/home">
+            <i class="fas fa-home"></i> Home
+          </a>
+          <a class="nav-link" routerLink="/productList">Today's Deals</a>
+          <a class="nav-link" routerLink="/category">Categories</a>
+          <a class="nav-link">Customer Service</a>
+          <a class="nav-link">Registry</a>
+          <a class="nav-link">Gift Cards</a>
+          <a class="nav-link">Sell</a>
+        </nav>
+
+        <!-- Prime Banner -->
+        <div class="amazon-prime-banner">
+          <span class="prime-text">Prime Day</span>
+          <span class="prime-date">July 16-17</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

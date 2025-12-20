@@ -1,6 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { CategoryResponse } from 'src/app/model/category.model';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { CartService } from 'src/app/services/cart.service';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-public-navbar',
@@ -9,60 +12,74 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class PublicNavbarComponent {
 
-isLoggedIn: boolean = false;
+ isLoggedIn: boolean = false;
   isAdmin: boolean = false;
-  cartItemCount: number = 3; // This should come from a service
-  userName: string = 'User';
+  userName: string = '';
+  cartCount: number = 0;
+  mobileMenuOpen: boolean = false;
+ 
+  categories: CategoryResponse[]=[];
 
-  constructor(private router: Router) {}
+  constructor(
+    private authService: AuthServiceService,
+    private cartService: CartService,
+    private categoryService: CategoryService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.categoryService.getAllCategories().subscribe((category) => this.categories = category)
     // Check authentication status
+    // this.authService.currentUser.subscribe(user => {
+    //   this.isLoggedIn = !!user;
+    //   if (user) {
+    //     this.userName = user.name || 'User';
+    //     this.isAdmin = user.role === 'ADMIN';
+    //   }
+    // });
+
+    // Get cart count
+    // this.cartService.cartItems.subscribe(items => {
+    //   this.cartCount = items.reduce((total, item) => total + item.quantity, 0);
+    // });
+
+    // Check initial auth state
     this.checkAuthStatus();
-    
-    // For demo purposes - in real app, get from auth service
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.isLoggedIn = true;
-      // Check if user is admin - this should come from your auth service
-      const userRole = localStorage.getItem('userRole');
-      this.isAdmin = userRole === 'admin';
-      
-      // Get user name from localStorage or service
-      this.userName = localStorage.getItem('userName') || 'User';
-    }
   }
 
   checkAuthStatus(): void {
-    // This should connect to your authentication service
-    // For now, we'll use localStorage
-    this.isLoggedIn = !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('user');
     
-    if (this.isLoggedIn) {
-      const userRole = localStorage.getItem('userRole');
-      this.isAdmin = userRole === 'admin';
-      this.userName = localStorage.getItem('userName') || 'User';
+    if (token && userData) {
+      try {
+        const user = JSON.parse(userData);
+        this.isLoggedIn = true;
+        this.userName = user.name;
+        this.isAdmin = user.role === 'ADMIN';
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
     }
   }
 
   logout(): void {
-    // Clear authentication data
-    localStorage.removeItem('token');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userName');
-    
-    // Update UI
+    this.authService.logout();
     this.isLoggedIn = false;
+    this.userName = '';
     this.isAdmin = false;
-    this.userName = 'User';
-    
-    // Redirect to home
-    this.router.navigate(['/home']);
+    // this.cartService.clearCart();
+    this.router.navigate(['/login']);
   }
 
-  // Update cart count (this would be called from cart service)
-  updateCartCount(count: number): void {
-    this.cartItemCount = count;
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    if (event.target.innerWidth > 576) {
+      this.mobileMenuOpen = false;
+    }
+  }
 }

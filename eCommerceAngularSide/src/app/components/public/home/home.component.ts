@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { Category } from 'src/app/model/category.model';
-import { Product, ProductListDto } from 'src/app/model/product.model';
+import { CategoryResponse } from 'src/app/model/category.model';
+import { DealResponse } from 'src/app/model/deal.model';
+import { ProductList } from 'src/app/model/product.model';
+import { CartService } from 'src/app/services/cart.service';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
+import { WishlistService } from 'src/app/services/wishlist.service';
 
 @Component({
   selector: 'app-home',
@@ -10,81 +13,95 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-products!: ProductListDto[];
+ // Carousel State
+  currentSlide = 0;
+  
+  // Categories Data
+  categories: CategoryResponse[] = [];
 
-featuredCategories: Category[] = [];
-  loading: boolean = true;
-  error: string | null = null;
+  // Today's Deals Data
+  todaysDeals: DealResponse[] = [];
 
+  // Featured Products Data
+  products: ProductList[] = [];
 
+  // Recommended Products
+  recommendedProducts: ProductList[] = [];
 
-constructor(
-  private productService: ProductService,
-  private categoryService: CategoryService){
+  // Carousel interval reference
+  private carouselInterval: any;
 
-}
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private cartService: CartService,
+    private wishlistService: WishlistService
+  ) {}
 
-ngOnInit(){
-  this.productService.getAll().subscribe((value) => this.products = value);
-  this.loadFeaturedCategories();
-}
+  ngOnInit(): void {
+    this.startCarousel();
+    this.loadProducts();
+  }
 
- loadFeaturedCategories(): void {
-    this.loading = true;
-    this.error = null;
-    
-    this.categoryService.getAllCategories().subscribe({
-      next: (data) => {
-        // প্রথম ৪টি ক্যাটেগরি ফিচার্ড হিসেবে নিন
-        this.featuredCategories = data.slice(0, 4);
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Failed to load categories.';
-        this.loading = false;
-        console.error('Error loading categories:', err);
-        
-        // Fallback data if API fails
-        this.loadFallbackCategories();
-      }
+  loadProducts(){
+    this.productService.getAllProducts().subscribe((value) => this.products = value);
+    this.productService.getAllProducts().subscribe((value) => this.recommendedProducts = value);
+  }
+  // Carousel Methods
+  startCarousel(): void {
+    this.carouselInterval = setInterval(() => {
+      this.nextSlide();
+    }, 5000);
+  }
+
+  nextSlide(): void {
+    this.currentSlide = (this.currentSlide + 1) % 3;
+  }
+
+  prevSlide(): void {
+    this.currentSlide = this.currentSlide === 0 ? 2 : this.currentSlide - 1;
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+    this.resetCarousel();
+  }
+
+  resetCarousel(): void {
+    clearInterval(this.carouselInterval);
+    this.startCarousel();
+  }
+
+  // Product Actions
+  addToCart(product: any): void {
+    this.cartService.addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      image: product.image
     });
+    
+    // Show notification (you can implement toast service)
+    alert(`${product.name} added to cart!`);
   }
 
-  loadFallbackCategories(): void {
-    this.featuredCategories = [
-      {
-        id: 1,
-        name: 'Electronics',
-        description: 'Latest gadgets and electronic devices',
-        imageUrl: 'assets/electronics.jpg'
-      },
-      {
-        id: 2,
-        name: 'Fashion',
-        description: 'Trendy clothing and accessories',
-        imageUrl: 'assets/fashion.jpg'
-      },
-      {
-        id: 3,
-        name: 'Home & Kitchen',
-        description: 'Everything for your home',
-        imageUrl: 'assets/home.jpg'
-      },
-      {
-        id: 4,
-        name: 'Books',
-        description: 'Best selling books and novels',
-        imageUrl: 'assets/books.jpg'
-      }
-    ];
-    this.loading = false;
+  addToWishlist(product: any): void {
+    this.wishlistService.addToWishlist({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image
+    });
+    
+    alert(`${product.name} added to wishlist!`);
   }
 
-  // Loading skeleton for better UX
-  getSkeletonArray(count: number): any[] {
-    return new Array(count).fill(0);
+  ngOnDestroy(): void {
+    if (this.carouselInterval) {
+      clearInterval(this.carouselInterval);
+    }
   }
-
 
 
 }

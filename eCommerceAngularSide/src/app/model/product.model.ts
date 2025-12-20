@@ -1,55 +1,39 @@
-export interface Product {
+export interface ProductResponse {
   id: number;
   name: string;
-  description?: string;
+  description: string;
   price: number;
-  stockQuantity?: number;
-  categoryId: number;
-  available?: boolean;
-  releaseDate?: string;
-  imageUrls?: string[];
-
-  // ⭐ rating info (READ ONLY)
+  stockQuantity: number;
+  available: boolean;
+  releaseDate: string; // ISO string
+  categoryId?: number;
+  categoryName?: string;
+  vendorId?: number;
+  vendorName?: string;
   averageRating?: number;
   totalReviews?: number;
+  imageUrls?: string[];
 }
+
+export interface ProductList {
+  id: number;
+  name: string;
+  price: number;
+  available: boolean;
+  thumbnailUrl?: string;
+}
+
+export interface ProductDetails extends ProductResponse {}
 
 export interface ProductRequest {
   name: string;
-  description?: string;
+  description: string;
   price: number;
-  stockQuantity?: number;
-  categoryId: number;
-  available?: boolean;
-  releaseDate?: string;
-  imageUrls?: string[];
-}
-
-export interface ProductListDto {
-  id: number;
-  name: string;
-  description?: string;
-  price: number;
-  available?: boolean;
+  stockQuantity: number;
+  available: boolean;
+  releaseDate: string;
   categoryId?: number;
-  stockQuantity?: number;
-  thumbnailUrl?: string;
-
-}
-
-export interface ProductDetailsDto {
-  id: number;
-  name: string;
-  description?: string;
-  price: number;
-  stockQuantity?: number;
-  available?: boolean;
-  categoryName?: string;
-  releaseDate?: string;
   imageUrls?: string[];
-
-  averageRating?: number;
-  totalReviews?: number;
 }
 
 // src/app/model/page.model.ts
